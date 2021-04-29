@@ -38,7 +38,7 @@ const HomeScreen = () => {
             </thead>
             {todos.map((todo, index) => {
               return (
-                <tbody key={index}>
+                <tbody key={todo._id}>
                   <tr>
                     <td>{index + 1}</td>  
                     <td>{todo.name}</td>  

@@ -21,7 +21,7 @@ export const getTodos =asyncHandler( async (req, res) => {
 // access   public
 export const createTodo = asyncHandler(async (req, res) => {
   
-  const {name, description} = req.body
+  const {name, description, status} = req.body
 
   if(!name || !description){
     return res.status(401).json({msg: "Name and discription cannot be empty"})
@@ -30,6 +30,7 @@ export const createTodo = asyncHandler(async (req, res) => {
   const todo = new Todo({
     name,
     description,
+    status
   })
   await todo.save()
   res.json(todo)
