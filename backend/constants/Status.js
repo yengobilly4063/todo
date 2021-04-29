@@ -1,7 +1,7 @@
-const Role = {
+const Status = {
   ACTIVE: "ADMIN",
   PENDING: "PENDING",
   COMPLETED: "COMPLETED"
 }
 
-export default Role
+export default Status
