@@ -1,28 +1,12 @@
 import express from "express"
 const router = express.Router()
-import Todo from "../models/Todo.js"
+import {createTodo, deleteTodo, getTodoById, getTodos, updateTodo} from "../controllers/todoControllers.js"
 
-// @GET
-// desc   Get all todos
-router.get("/", async (req, res) => {
-  const todos = await Todo.find()
-  res.json(todos)
-})
 
-// POST
-// @desc CREATE a todo User
-router.post("/", async (req, res) => {
-  const {name, description, status, assignee, deligates} = req.body
-  const todo = new Todo({
-    name,
-    description,
-    status,
-    assignee,
-    deligates
-  })
-  await todo.save()
-  res.json(todo)
-})
-
+router.route("/").get(getTodos)
+router.route("/").post(createTodo)
+router.route("/:id").get(getTodoById)
+router.route("/:id").put(updateTodo)
+router.route("/:id").delete(deleteTodo)
 
 export default router

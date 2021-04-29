@@ -1,15 +1,14 @@
 import express from "express"
-import bodyParser from "body-parser"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import userRoutes from "./routes/userRoutes.js"
 import todoRoutes from "./routes/todoRoutes.js"
-
+import fileUpload from "express-fileupload"
 
 dotenv.config()
 
 try{
-  mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true},
+  mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true},
     () => console.log("MongoDB connection established")
   )
 }catch(err){
@@ -19,8 +18,10 @@ try{
 const app = express()
 
 // Body Parser Middleware
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+app.use(express.json())
+
+//Other middlewares
+app.use(fileUpload())
 
 // API Routes
 app.use("/api/users", userRoutes)
