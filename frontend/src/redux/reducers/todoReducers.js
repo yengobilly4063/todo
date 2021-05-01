@@ -2,6 +2,13 @@ import {
   ADD_TODO_FAIL,
   ADD_TODO_REQUEST,
   ADD_TODO_SUCCESS,
+  
+  DELETE_TODO_FAIL,
+  
+  DELETE_TODO_REQUEST,
+  
+  DELETE_TODO_SUCCESS,
+  
   TODO_LIST_FAIL,
   TODO_LIST_REQUEST,
   TODO_LIST_SUCCESS
@@ -20,7 +27,7 @@ export const todoListReeducers = (state = {todos: []}, action) =>{
   }
 }
 
-export const addTodoReeducers = (state = {todo: {}}, action) =>{
+export const addTodoReducers = (state = {todo: {}}, action) =>{
   switch(action.type){
     case ADD_TODO_REQUEST:
       return {loading: true}
@@ -31,5 +38,22 @@ export const addTodoReeducers = (state = {todo: {}}, action) =>{
     default:
       return state
   }
+}
+
+export const deleteTodoReducer = (state = {todoTrash: {}}, action) => {
+  switch(action.type){
+    case DELETE_TODO_REQUEST:
+      return {loading: true}
+    case DELETE_TODO_SUCCESS:
+      return {loading: false, success: true, todoTrash: action.payload}
+    case DELETE_TODO_FAIL:
+      return {loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+export const todoDetailsReducer = (state = {todoInfo: {}}, action) =>{
+  
 }
 

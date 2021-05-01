@@ -5,7 +5,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { addTodo } from '../redux/actions/todoActions'
 
-const AddTodoScreen = () => {
+const TodoAddScreen = ({history}) => {
   const dispatch = useDispatch()
   const todoStatus = ["PENDING", "ACTIVE", "COMPLETED"]
 
@@ -25,6 +25,7 @@ const AddTodoScreen = () => {
     }else{
       console.log(status)
       dispatch(addTodo({name, description, status}))
+      history.push("/")
     }
   }
 
@@ -68,4 +69,4 @@ const AddTodoScreen = () => {
   )
 }
 
-export default AddTodoScreen
+export default TodoAddScreen

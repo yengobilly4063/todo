@@ -43,8 +43,9 @@ export const getTodoById = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id)
   if(!todo){
     return res.status(401).json({error: `Todo not found`})
+  }else{
+    return res.json(todo)
   }
-  res.json(todo)
 })
 
 // desc     Delete singe todo by ID

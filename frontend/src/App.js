@@ -1,8 +1,9 @@
 import React from "react"
 import {BrowserRouter as Router, Route} from "react-router-dom"
 import Header from "./components/Header";
-import AddTodoScreen from "./screens/AddTodoScreen";
+import TodoAddScreen from "./screens/TodoAddScreen";
 import HomeScreen from "./screens/HomeScreen";
+import TodoDetailsScreen from "./screens/TodoDetailsScreen";
 
 function App() {
 
@@ -10,7 +11,8 @@ function App() {
     <Router>
       <Header />
       <Route path="/" exact component={HomeScreen} />
-      <Route path="/todos/add" exact component={AddTodoScreen} />
+      <Route path="/todos/add" exact component={TodoAddScreen} />
+      <Route path="/todos/details/:id" exact component={TodoDetailsScreen} />
     </Router>
   );
 }

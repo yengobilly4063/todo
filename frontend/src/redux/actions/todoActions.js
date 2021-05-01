@@ -2,9 +2,20 @@ import {
   ADD_TODO_FAIL,
   ADD_TODO_REQUEST,
   ADD_TODO_SUCCESS,
+  
+  DELETE_TODO_FAIL,
+  
+  DELETE_TODO_REQUEST,
+  
+  DELETE_TODO_SUCCESS,
+  
+  TODO_DETAILS_FAIL,
+  TODO_DETAILS_REQUEST,
+  TODO_DETAILS_SUCCESS,
+
   TODO_LIST_FAIL,
   TODO_LIST_REQUEST,
-  TODO_LIST_SUCCESS
+  TODO_LIST_SUCCESS,
 } from "../types/todoActionTypes"
 
 import axios from "axios"
@@ -48,6 +59,28 @@ export const addTodo = (todo) => async (dispatch) => {
   }catch(error){
     dispatch({
       type: ADD_TODO_FAIL,
+      payload: error.message
+    })
+  }
+}
+
+export const getTodoDetails = (id) => async (dispatch) => {
+  
+}
+
+export const deleteTodo = (id) => async (dispatch) => {
+  try{
+    dispatch({type: DELETE_TODO_REQUEST})
+
+    const {data} = await axios.delete(`/api/todos/${id}`)
+
+    dispatch({
+      type: DELETE_TODO_SUCCESS,
+      payload: data
+    })
+  }catch(error){
+    dispatch({
+      type: DELETE_TODO_FAIL,
       payload: error.message
     })
   }
