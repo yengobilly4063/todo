@@ -3,7 +3,6 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import userRoutes from "./routes/userRoutes.js"
 import todoRoutes from "./routes/todoRoutes.js"
-import fileUpload from "express-fileupload"
 
 dotenv.config()
 
@@ -22,7 +21,6 @@ const app = express()
 app.use(express.json())
 
 //Other middlewares
-app.use(fileUpload())
 
 // API Routes
 app.use("/api/users", userRoutes)

@@ -1,51 +1,60 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 import { getTodoDetails } from '../redux/actions/todoActions'
 
 const TodoDetailsScreen = ({match}) => {
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
+  const [state, setState] = useState({name: "", description: ""})
 
   const dispatch = useDispatch()
-  const {todoInfo, loading, error} = useSelector(state => state.todoDetails)
+  const {todo, loading, error} = useSelector(state => state.todoInfo)
 
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(`updating ${match.params.id}`)
+    console.log(name, description);
   }
 
   useEffect(() =>  {
-    console.clear()
     console.log(match.params.id);
     dispatch(getTodoDetails(match.params.id))
-    if(!name){
-      setName(todoInfo.name)
-      setDescription(todoInfo.description)
+  }, [dispatch, match])
+
+
+  useEffect(() => {
+    if (todo && todo.name && todo.description) {
+      setState({...state, name:todo.name, description: todo.description })
     }
     
-  }, [dispatch, match])
+  }, [todo])
+
+  const handleChange = (e) => {
+    const {name, value} = e.target
+    setState({...state, [name]: value})
+  }
+
+  const {name, description} = state
 
   return (
     <Container className="my-3">
       <h1>Todo Details</h1>
-      <Row>
+      {error && <Message variant="danger">{error}</Message>}
+      {loading ? <Loader /> : 
+        <Row>
         <Col md={8}>
           <Form  onSubmit={handleSubmit}>
             <Form.Group controlId="name">
               <Form.Label>Name:</Form.Label>
-              <Form.Control type="text" placeholder="Enter todo name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}></Form.Control>
+              <Form.Control name="name" type="text" placeholder="Enter todo name"
+                value={name} onChange={handleChange}></Form.Control>
             </Form.Group>
             <Form.Group controlId="name">
               <Form.Label>Description:</Form.Label>
-              <Form.Control as="textarea" rows={4} placeholder="Enter todo name"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}></Form.Control>
+              <Form.Control name="description" as="textarea" rows={4} placeholder="Enter todo name"
+                value={description} onChange={handleChange}></Form.Control>
             </Form.Group>
-            
-            
             <Button variant="primary" type="submit">
               Update
             </Button>
@@ -53,6 +62,7 @@ const TodoDetailsScreen = ({match}) => {
         </Col>
         <Col md={4}></Col>
       </Row>
+      }
     </Container>
   )
 }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
-import {useSelector, useDispatch} from "react-redux"
-import Loader from '../components/Loader'
+import {useDispatch} from "react-redux"
 import Message from '../components/Message'
 import { addTodo } from '../redux/actions/todoActions'
 
@@ -14,9 +13,6 @@ const TodoAddScreen = ({history}) => {
   const [status, setStatus] = useState(todoStatus[0])
 
   const [message, setMessage] = useState("")
-
-  const todoAdd = useSelector(state => state.todoAdd)
-  const {todo} = todoAdd
 
   const handleSubmit = (e) => {
     e.preventDefault()

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {Container, Row, Col, Table, Button} from "react-bootstrap"
+import {Container, Table} from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import {Link} from "react-router-dom"
@@ -11,18 +11,14 @@ import Message from "../components/Message"
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
-  const todoList = useSelector(state => state.todoList)
-  const {todos, loading, error} = todoList
-
-  const todoDeleted = useSelector(state => state.todoDeleted)
-  const {todoTrash, success} = todoDeleted
+  const todoInfo = useSelector(state => state.todoInfo)
+  const {todos, loading, error, todo} = todoInfo
 
   useEffect(() => {
     dispatch(getTodos())
-  }, [dispatch, todoTrash])
+  }, [dispatch, todo])
 
-  const handleDelete = (e, id) => {
-    e.preventDefault()
+  const handleDelete = (id) => {
     dispatch(deleteTodo(id))
   }
 
@@ -33,8 +29,10 @@ const HomeScreen = () => {
           <FontAwesomeIcon icon={faPlusSquare} size="3x" color="green" />
         </Link>
         {error && <Message variant="danger">{error}</Message>}
-        {loading ? <Loader /> :
-          <Table responsive striped hover className="my-3">
+        {loading && <Loader /> 
+          
+        }
+        <Table responsive striped hover className="my-3">
             <thead>
               <tr>
                 <th>#</th>
@@ -44,7 +42,7 @@ const HomeScreen = () => {
                 <th style={{textAlign: "right"}}>Actions</th>
               </tr>
             </thead>
-            {todos.map((todo, index) => {
+            {todos && todos.map((todo, index) => {
               return (
                 <tbody key={todo._id}>
                   <tr>
@@ -53,14 +51,13 @@ const HomeScreen = () => {
                     <td>{todo.description.substring(0, 20)} ...</td>
                     <td>{todo.status}</td>  
                     <td style={{textAlign: "right"}}>
-                      <FontAwesomeIcon onClick={(e) => handleDelete(e, todo._id)} style={{cursor: "pointer"}} icon={faTrash} size="1x" color="red" />
+                      <FontAwesomeIcon onClick={() => handleDelete(todo._id)} style={{cursor: "pointer"}} icon={faTrash} size="1x" color="red" />
                     </td>
                   </tr>              
                 </tbody>
               )
             })}   
           </Table>
-        }
         
       </Container>
     </div>
