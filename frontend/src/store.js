@@ -9,7 +9,8 @@ const middlewares = [thunk]
 const reducers = combineReducers({
   todoList: todoListReeducers,
   todoAdd: addTodoReducers,
-  todoDeleted: deleteTodoReducer
+  todoDeleted: deleteTodoReducer,
+  todoDetails: todoDetailsReducer
 })
 
 

@@ -7,11 +7,24 @@ const TodoDetailsScreen = ({match}) => {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
 
+  const dispatch = useDispatch()
+  const {todoInfo, loading, error} = useSelector(state => state.todoDetails)
 
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(`updating ${match.params.id}`)
   }
+
+  useEffect(() =>  {
+    console.clear()
+    console.log(match.params.id);
+    dispatch(getTodoDetails(match.params.id))
+    if(!name){
+      setName(todoInfo.name)
+      setDescription(todoInfo.description)
+    }
+    
+  }, [dispatch, match])
 
   return (
     <Container className="my-3">

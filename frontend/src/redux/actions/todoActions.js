@@ -65,7 +65,15 @@ export const addTodo = (todo) => async (dispatch) => {
 }
 
 export const getTodoDetails = (id) => async (dispatch) => {
-  
+  try{
+    dispatch({type: TODO_DETAILS_REQUEST})
+
+    const {data} = await axios.get(`/api/todos/${id}`)
+
+    dispatch({type: TODO_DETAILS_SUCCESS, payload: data})
+  }catch(error){
+    dispatch({type: TODO_DETAILS_FAIL, payload: error.message})
+  }
 }
 
 export const deleteTodo = (id) => async (dispatch) => {

@@ -9,6 +9,10 @@ import {
   
   DELETE_TODO_SUCCESS,
   
+  TODO_DETAILS_REQUEST,
+  
+  TODO_DETAILS_SUCCESS,
+  
   TODO_LIST_FAIL,
   TODO_LIST_REQUEST,
   TODO_LIST_SUCCESS
@@ -43,7 +47,7 @@ export const addTodoReducers = (state = {todo: {}}, action) =>{
 export const deleteTodoReducer = (state = {todoTrash: {}}, action) => {
   switch(action.type){
     case DELETE_TODO_REQUEST:
-      return {loading: true}
+      return {...state, loading: true}
     case DELETE_TODO_SUCCESS:
       return {loading: false, success: true, todoTrash: action.payload}
     case DELETE_TODO_FAIL:
@@ -54,6 +58,21 @@ export const deleteTodoReducer = (state = {todoTrash: {}}, action) => {
 }
 
 export const todoDetailsReducer = (state = {todoInfo: {}}, action) =>{
-  
+  switch(action.type){
+    case TODO_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: false, todoInfo: {}
+      }
+    case TODO_DETAILS_SUCCESS:
+      return {
+        ...state, 
+        loading: false, todoInfo: action.payload
+      }
+    case TODO_LIST_FAIL:
+      return {loading: false, error: action.payload}
+    default:
+      return state
+  }
 }
 

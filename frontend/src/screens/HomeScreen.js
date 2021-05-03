@@ -23,7 +23,6 @@ const HomeScreen = () => {
 
   const handleDelete = (e, id) => {
     e.preventDefault()
-    console.log("deleting ", id);
     dispatch(deleteTodo(id))
   }
 

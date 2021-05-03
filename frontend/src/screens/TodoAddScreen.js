@@ -23,11 +23,12 @@ const TodoAddScreen = ({history}) => {
     if(!name || !description || !status){
       setMessage("Please input all fields")
     }else{
-      console.log(status)
       dispatch(addTodo({name, description, status}))
       history.push("/")
     }
   }
+
+
 
   return (
     <div>
