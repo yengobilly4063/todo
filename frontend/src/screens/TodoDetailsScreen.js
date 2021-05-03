@@ -3,22 +3,15 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { getTodoDetails } from '../redux/actions/todoActions'
+import { getTodoDetails, updateTodo } from '../redux/actions/todoActions'
 
-const TodoDetailsScreen = ({match}) => {
-  const [state, setState] = useState({name: "", description: ""})
+const TodoDetailsScreen = ({match, history}) => {
+  const [state, setState] = useState({name: "", description: "", message: {isGood: false, msg: ""}})
 
   const dispatch = useDispatch()
   const {todo, loading, error} = useSelector(state => state.todoInfo)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(`updating ${match.params.id}`)
-    console.log(name, description);
-  }
-
   useEffect(() =>  {
-    console.log(match.params.id);
     dispatch(getTodoDetails(match.params.id))
   }, [dispatch, match])
 
@@ -35,15 +28,29 @@ const TodoDetailsScreen = ({match}) => {
     setState({...state, [name]: value})
   }
 
-  const {name, description} = state
+  const {name, description, message} = state
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if(!name || !description ){
+      setState({...state, message: {isGood: false, msg: "Please provide all fields"}})
+      return
+    }
+    dispatch(updateTodo(match.params.id, {name, description}))
+    setState({...state, message: {isGood: true, msg: "Updated Successfully"}})
+    setTimeout(() => {history.push("/")}, 2000)
+    
+  }
 
   return (
     <Container className="my-3">
       <h1>Todo Details</h1>
-      {error && <Message variant="danger">{error}</Message>}
+      {error && <Message variant={message.isGood ? "primary" : "danger"}>{error}</Message>}
+      
       {loading ? <Loader /> : 
         <Row>
         <Col md={8}>
+          {message.msg && <Message variant="primary">{message.msg}</Message>}
           <Form  onSubmit={handleSubmit}>
             <Form.Group controlId="name">
               <Form.Label>Name:</Form.Label>

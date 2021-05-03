@@ -11,7 +11,7 @@ export const getTodos =asyncHandler( async (req, res) => {
     return res.status(500).json({error: "Error retreving todos"})
   }
   if(todos.length === 0){
-    return res.status(401).json({msg: "No todos found in database"})
+    return res.status(401).json({error: "No todos found in database"})
   }
   res.json(todos)
 })
@@ -24,7 +24,7 @@ export const createTodo = asyncHandler(async (req, res) => {
   const {name, description, status} = req.body
 
   if(!name || !description){
-    return res.status(401).json({msg: "Name and discription cannot be empty"})
+    return res.status(401).json({error: "Name and discription cannot be empty"})
   }
 
   const todo = new Todo({

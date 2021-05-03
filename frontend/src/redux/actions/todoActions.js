@@ -14,6 +14,9 @@ import {
   TODO_LIST_FAIL,
   TODO_LIST_REQUEST,
   TODO_LIST_SUCCESS,
+  TODO_UPDATE_FAIL,
+  TODO_UPDATE_REQUEST,
+  TODO_UPDATE_SUCCESS,
 } from "../types/todoActionTypes"
 
 import axios from "axios"
@@ -87,6 +90,29 @@ export const deleteTodo = (id) => async (dispatch) => {
     dispatch({
       type: TODO_DELETE_FAIL,
       payload: error.message
+    })
+  }
+}
+
+export const updateTodo = (id, todo) => async (dispatch) => {
+  try {
+    dispatch({type: TODO_UPDATE_REQUEST})
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    const {data} = await axios.put(`/api/todos/${id}`, todo, config)
+
+    dispatch({
+      type: TODO_UPDATE_SUCCESS, payload: data
+    })
+    
+  }catch(error){
+    dispatch({
+      type: TODO_UPDATE_FAIL, payload: error.message
     })
   }
 }

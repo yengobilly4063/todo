@@ -7,12 +7,17 @@ import { addTodo } from '../redux/actions/todoActions'
 const TodoAddScreen = ({history}) => {
   const dispatch = useDispatch()
   const todoStatus = ["PENDING", "ACTIVE", "COMPLETED"]
+  const [state, setState] = useState({name: "", description: ""})
 
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
   const [status, setStatus] = useState(todoStatus[0])
 
   const [message, setMessage] = useState("")
+
+  const HandleChange = (e) => {
+    const {name, value} = e.target
+    setState({...state, [name]: value})
+  }
+  const {name, description} = state
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -34,21 +39,25 @@ const TodoAddScreen = ({history}) => {
           <Form.Group controlId="name">
             <Form.Label>Name:</Form.Label>
             <Form.Control type="text" placeholder="Enter todo name"
+              name="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}></Form.Control>
+              onChange={HandleChange}>
+            </Form.Control>
           </Form.Group>
+          
           <Form.Group controlId="description">
             <Form.Label>Description:</Form.Label>
             <Form.Control as="textarea"
+              name="description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={HandleChange}
               rows={4} placeholder="Enter todo description"></Form.Control>
           </Form.Group>
           <Form.Group controlId="status">
             <Form.Label>Status:</Form.Label>
             <Form.Control as="select"
               value={status}
-              onChange={(e) => setStatus(e.target.value)}
+              onChange={HandleChange}
               >
               {todoStatus.map((st, index)=> {
                 return (

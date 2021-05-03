@@ -13,7 +13,11 @@ import {
   
   TODO_LIST_FAIL,
   TODO_LIST_REQUEST,
-  TODO_LIST_SUCCESS
+  TODO_LIST_SUCCESS,
+
+  TODO_UPDATE_REQUEST,
+  TODO_UPDATE_SUCCESS,
+  TODO_UPDATE_FAIL
 } from "../types/todoActionTypes"
 
 const initialState = {loading: false, error: null, todos: [], todo: {}}
@@ -88,6 +92,23 @@ export const todoReducers = (state = initialState, action) =>{
     case TODO_DETAILS_FAIL:
       return {
         ...state, 
+        loading: false, error: action.payload
+      }
+    
+    // TODO UPDATE ACTIONS
+    case TODO_UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true, todo: {}
+      }
+    case TODO_UPDATE_SUCCESS:
+      return {
+        ...state,
+        loading: false, todo: action.payload
+      }
+    case TODO_UPDATE_FAIL:
+      return {
+        ...state,
         loading: false, error: action.payload
       }
     default:
